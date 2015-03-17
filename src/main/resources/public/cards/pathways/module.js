@@ -35,28 +35,22 @@ angular
         options.basicLISData = basicLISData;
 
         var handleLRSResponse = function (statements) {
-                _.forEach(statements, function (statement) {
-                    $scope.course.addEvent(EventService.getEventFromService(statement));
-                });
-
+            _.forEach(statements, function (statement) {
+                $scope.course.addEvent(EventService.getEventFromService(statement));
+            });
+        }
 
             //assign events to users so that we can find individual paths
-            var eventsGroupByUser = _.groupBy($scope.course.events,function(event){ return event.user_id; });
-            _.forEach($scope.course.learners, function (learner) {
-
-                var learnerEvents = eventsGroupByUser[learner.user_id];
-                if (!learnerEvents) {
-                    // if no events were found try with email address
-                    if (learner.person.contact_email_primary) {
-                        learnerEvents = eventsGroupByUser[learner.person.contact_email_primary.split('@')[0]];
-                    }
-                }
-
-                learner.events = learnerEvents;
-                var learnerTotal = learner.events ? learner.events.length : 0;
-                learner.relative_activity_level = learnerTotal;
-            });
-            }
+//            var eventsGroupByObject = _.groupBy($scope.course.events,function(event){ return event.object.id; });
+//            _.forEach($scope.course.events, function (event) {
+//
+//                var objectEvents = eventsGroupByObject[event.object.id];
+//
+////                learner.events = learnerEvents;
+//                var learnerTotal = objectEvents ? objectEvents.length : 0;
+//                learner.relative_activity_level = learnerTotal;
+//            });
+//            }
 
 //        if ($scope.isStudent) {
 //            var userId = ContextService.getCurrentUser().user_id;
@@ -64,18 +58,18 @@ angular
 //                .then(handleLRSResponse);
 //        }
 //        else {
-            RosterService
-                .getRoster(options, null)
-                .then(
-                function (rosterData) {
-                    if (rosterData) {
-
-                        $scope.course.buildRoster(rosterData);
+//            RosterService
+//                .getRoster(options, null)
+//                .then(
+//                function (rosterData) {
+//                    if (rosterData) {
+//
+//                        $scope.course.buildRoster(rosterData);
                         EventService.getEvents($scope.contextMapping.id,$scope.activeDashboard.id,$scope.card.id)
                             .then(handleLRSResponse);
-                    }
-                }
-            );
+//                    }
+//                }
+//            );
 //        }
 
 	}

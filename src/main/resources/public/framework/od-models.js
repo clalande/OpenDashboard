@@ -48,6 +48,7 @@ var Constants = (function(window,undefined) {
 		this.learners = [];
 		this.events = [];
 		this.events_median = null;
+        this.learning_objects = [];
 		
 		if (options) {
 			this.id = options.id;
@@ -56,6 +57,7 @@ var Constants = (function(window,undefined) {
 			this.learners = options.learners || [];
 			this.events = options.events || [];
 			this.events_median = options.events_median;
+            this.learning_objects = options.learning_objects || [];
 		}
 		
 	    this.fromLTI = function fromLTI(lti_launch) {
@@ -97,10 +99,21 @@ var Constants = (function(window,undefined) {
 	    };
 	    
 	    this.addEvent = function addEvent(event) {
+
 	    	if (!this.events) {
 	    		this.events = [];
 	    	}
 	    	this.events.push(event);
+
+            if(!this.learning_objects)
+            {
+                this.learning_objects = [];
+            }
+            else {
+                if (this.learning_objects && event.raw && event.raw.object && this.learning_objects.indexOf(event.raw.object) == -1) {
+                    this.learning_objects.push(event.raw.object);
+                }
+            }
 	    };
 
 	};
