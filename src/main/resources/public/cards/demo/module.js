@@ -15,7 +15,7 @@ angular
     });
  })
 
-	.directive('sankeyDiagram', function ($parse) {
+	.directive('sankeyDiagram2', function ($parse) {
 		//explicitly creating a directive definition variable
 		//this may look verbose but is good for clarification purposes
 		//in real life you'd want to simply return the object {...}
@@ -167,10 +167,10 @@ angular
 						};
 					});
 
-					sankey
+					/*sankey
 						.nodes(graph.nodes)
 						.links(graph.links)
-						.layout(32);
+						.layout(32); */
 
 
 					// add in the links

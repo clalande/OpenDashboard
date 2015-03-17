@@ -31,13 +31,13 @@ angular
             //we don't want to overwrite our directive declaration
             //in the HTML mark-up
             replace: false,
-            scope: {data: '=chartData'},
+            //scope: {data: '=chartData'},
             link: function (scope, element, attrs) {
                 //converting all data passed thru into an array
                 var data = attrs.chartData.split(',');
 
 
-                var units = "Widgets";
+                var units = "Students";
 
                 var margin = {top: 10, right: 10, bottom: 10, left: 10},
                     width = 1000 - margin.left - margin.right,
@@ -153,7 +153,7 @@ angular
 
                     console.log("json: " + jsonString);
 
-                    var jsonString =  '{ "nodes": [{"name":"Activity1"}, {"name":"Reading1"}, {"name":"Activity2"}, {"name":"Forum1"}, {"name":"Quiz1"}], "links": [{"source":"Activity1","target":"Reading1","value":2}, {"source":"Reading1","target":"Activity2","value":2}, {"source":"Activity1","target":"Activity2","value":2}, {"source":"Reading1","target":"Forum1","value":2}, {"source":"Activity2","target":"Quiz1","value":2}, {"source":"Activity2","target":"Forum1","value":2}, {"source":"Reading1","target":"Quiz1","value":4} ] }';
+                    var jsonString =  '{ "nodes": [{"name":"Activity1"}, {"name":"Reading1"}, {"name":"Activity2"}, {"name":"Forum1"}, {"name":"Quiz1"},{"name":"Quitting"} ], "links": [{"source":"Activity1","target":"Reading1","value":10}, {"source":"Reading1","target":"Activity2","value":7}, {"source":"Activity1","target":"Activity2","value":3}, {"source":"Reading1","target":"Forum1","value":4}, {"source":"Activity2","target":"Quiz1","value":5}, {"source":"Activity2","target":"Forum1","value":2}, {"source":"Reading1","target":"Quiz1","value":4},  {"source":"Activity1","target":"Quitting","value":1},  {"source":"Forum1","target":"Quiz1","value":6} ] }';
 
                     //console.log("good json: " + jsonString2);
 

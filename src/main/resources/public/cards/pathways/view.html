@@ -1,19 +1,6 @@
 <div class="col-xs-12" ng-controller="PathwaysCardController">
 	<h1>Engagement Pathways Card</h1>
-	<h2>Events (Course: {{course.id}})</h2>
-    <div class="col-xs-12" ng-repeat="event in course.events">
-        <div class="row">
-            <div class="col-xs-6">{{event.name_full}}</div>
-            <div class="col-xs-6">{{event.action}}</div>
-            <div class="col-xs-6">{{event.timestamp}}</div>
-        </div>
-    </div>
-    <h2>Learning Objects (Course: {{course.id}})</h2>
-    <div class="col-xs-12" ng-repeat="learn in course.learning_objects">
-        <div class="row">
-            <div class="col-xs-6">hi {{learn}}</div>
-        </div>
-    </div>
+
 
     <sankey-diagram chart-data="myData" ></sankey-diagram>
 
@@ -21,6 +8,22 @@
 
 
     </p>
+
+    <h2>Learning Objects (Course: {{course.id}})</h2>
+    <div class="col-xs-12" ng-repeat="learn in course.learning_objects">
+        <div class="row">
+            <div class="col-xs-6">{{learn}}</div>
+        </div>
+    </div>
+    <h2>Events (Course: {{course.id}})</h2>
+    <div class="col-xs-12" ng-repeat="event in course.events">
+        <div class="row">
+            <div class="col-xs-6">{{event.name_full}}</div>
+            <div class="col-xs-6">{{event.action}}</div>
+            <div class="col-xs-6">{{event.timestamp}}</div>
+        </div>
+    </div>
+
 
     <style>
 
