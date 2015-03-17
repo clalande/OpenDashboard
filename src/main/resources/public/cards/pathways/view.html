@@ -3,7 +3,9 @@
 	<h2>Events (Course: {{course.id}})</h2>
     <div class="col-xs-12" ng-repeat="event in course.events">
         <div class="row">
-            <div class="col-xs-6">hi {{event.id}}</div>
+            <div class="col-xs-6">{{event.name_full}}</div>
+            <div class="col-xs-6">{{event.action}}</div>
+            <div class="col-xs-6">{{event.timestamp}}</div>
         </div>
     </div>
 </div>
