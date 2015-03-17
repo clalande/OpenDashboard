@@ -23,38 +23,61 @@ angular
 	$scope.lti = ContextService.getInbound_LTI_Launch();
 
 	if ($scope.lti.ext.ext_ims_lis_memberships_url && $scope.lti.ext.ext_ims_lis_memberships_id) {
-		
-		var basicLISData = {};
-		basicLISData.ext_ims_lis_memberships_url = $scope.lti.ext.ext_ims_lis_memberships_url;
-		basicLISData.ext_ims_lis_memberships_id = $scope.lti.ext.ext_ims_lis_memberships_id;
-		
-		var options = {};
-		options.contextMappingId = $scope.contextMapping.id;
-		options.dashboardId = $scope.activeDashboard.id;
-		options.cardId = $scope.card.id;
-		options.basicLISData = basicLISData;
+
+        var basicLISData = {};
+        basicLISData.ext_ims_lis_memberships_url = $scope.lti.ext.ext_ims_lis_memberships_url;
+        basicLISData.ext_ims_lis_memberships_id = $scope.lti.ext.ext_ims_lis_memberships_id;
+
+        var options = {};
+        options.contextMappingId = $scope.contextMapping.id;
+        options.dashboardId = $scope.activeDashboard.id;
+        options.cardId = $scope.card.id;
+        options.basicLISData = basicLISData;
 
         var handleLRSResponse = function (statements) {
-            _.forEach(statements, function (statement) {
-                $scope.course.addEvent(EventService.getEventFromService(statement));
+                _.forEach(statements, function (statement) {
+                    $scope.course.addEvent(EventService.getEventFromService(statement));
+                });
+
+
+            //assign events to users so that we can find individual paths
+            var eventsGroupByUser = _.groupBy($scope.course.events,function(event){ return event.user_id; });
+            _.forEach($scope.course.learners, function (learner) {
+
+                var learnerEvents = eventsGroupByUser[learner.user_id];
+                if (!learnerEvents) {
+                    // if no events were found try with email address
+                    if (learner.person.contact_email_primary) {
+                        learnerEvents = eventsGroupByUser[learner.person.contact_email_primary.split('@')[0]];
+                    }
+                }
+
+                learner.events = learnerEvents;
+                var learnerTotal = learner.events ? learner.events.length : 0;
+                learner.relative_activity_level = learnerTotal;
             });
-        }
+            }
 
-//		RosterService
-//		.getRoster(options,null) // pass null so the default implementation is used
-//		.then(
-//			function (rosterData) {
-//				if (rosterData) {
-//					$scope.course.buildRoster(rosterData);
-//				}
-//			}
-//		);
+//        if ($scope.isStudent) {
+//            var userId = ContextService.getCurrentUser().user_id;
+//            EventService.getEventsForUser($scope.contextMapping.id,$scope.activeDashboard.id,$scope.card.id,userId)
+//                .then(handleLRSResponse);
+//        }
+//        else {
+            RosterService
+                .getRoster(options, null)
+                .then(
+                function (rosterData) {
+                    if (rosterData) {
 
-        $log.debug('******CPL: About to call the event service');
-        var userId = ContextService.getCurrentUser().user_id;
-        EventService.getEvents($scope.contextMapping.id,$scope.activeDashboard.id,$scope.card.id)
-            .then(handleLRSResponse);
-		
+                        $scope.course.buildRoster(rosterData);
+                        EventService.getEvents($scope.contextMapping.id,$scope.activeDashboard.id,$scope.card.id)
+                            .then(handleLRSResponse);
+                    }
+                }
+            );
+//        }
+
 	}
 	else {
 		$log.error('Card not configured for Events');
