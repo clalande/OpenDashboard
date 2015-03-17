@@ -7,7 +7,7 @@ angular
     registryProvider.register('pathways',{
         title: 'Engagement Pathways',
         description: 'This card shows the pathways that students take through content.',
-        imgUrl: '',
+        imgUrl: '/cards/pathways/pathways.jpg',
         cardType: 'pathways',
         styleClasses: 'od-card col-xs-12',
 	    config: [
