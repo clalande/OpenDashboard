@@ -1,4 +1,9 @@
 <div class="col-xs-12" ng-controller="PathwaysCardController">
 	<h1>Engagement Pathways Card</h1>
-	<h2>Roster (Course: {{course.id}})</h2>
+	<h2>Events (Course: {{course.id}})</h2>
+    <div class="col-xs-12" ng-repeat="event in course.events">
+        <div class="row">
+            <div class="col-xs-6">hi {{event.id}}</div>
+        </div>
+    </div>
 </div>

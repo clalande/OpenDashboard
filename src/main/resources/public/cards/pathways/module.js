@@ -11,10 +11,13 @@ angular
         cardType: 'pathways',
         styleClasses: 'od-card col-xs-12',
 	    config: [
+            {field:'url',fieldName:'OpenLRS URL',fieldType:'url',required:false},
+            {field:'key',fieldName:'OpenLRS Key',fieldType:'text',required:false},
+            {field:'secret',fieldName:'OpenLRS Secret',fieldType:'text',required:false}
 	    ]
     });
  })
- .controller('PathwaysCardController', function($scope, $log, ContextService, RosterService, OutcomesService, DemographicsService) {
+ .controller('PathwaysCardController', function($scope, $http, $log, _, ContextService, EventService, RosterService) {
 	
 	$scope.course = ContextService.getCourse();
 	$scope.lti = ContextService.getInbound_LTI_Launch();
@@ -31,37 +34,31 @@ angular
 		options.cardId = $scope.card.id;
 		options.basicLISData = basicLISData;
 
-		RosterService
-		.getRoster(options,null) // pass null so the default implementation is used
-		.then(
-			function (rosterData) {
-				if (rosterData) {
-					$scope.course.buildRoster(rosterData);					
-				}
-			}
-		);
-		
-		OutcomesService
-		.getOutcomes(options,null)
-		.then(
-			function(outcomesData) {
-				$scope.outcomes = outcomesData;
-			}
-		);
-		
-		DemographicsService
-		.getDemographics()
-		.then(
-			function (demographicsData) {
-				$scope.demographics = demographicsData;
-			}
-			
-		);
+        var handleLRSResponse = function (statements) {
+            _.forEach(statements, function (statement) {
+                $scope.course.addEvent(EventService.getEventFromService(statement));
+            });
+        }
+
+//		RosterService
+//		.getRoster(options,null) // pass null so the default implementation is used
+//		.then(
+//			function (rosterData) {
+//				if (rosterData) {
+//					$scope.course.buildRoster(rosterData);
+//				}
+//			}
+//		);
+
+        $log.debug('******CPL: About to call the event service');
+        var userId = ContextService.getCurrentUser().user_id;
+        EventService.getEvents($scope.contextMapping.id,$scope.activeDashboard.id,$scope.card.id)
+            .then(handleLRSResponse);
 		
 	}
 	else {
-		$log.error('Card not configured for Roster');
-		$scope.message = 'No supporting roster service available';
+		$log.error('Card not configured for Events');
+		$scope.message = 'No supporting event service available';
 	}
 });
 

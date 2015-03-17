@@ -102,6 +102,14 @@ var Constants = (function(window,undefined) {
 	    	}
 	    	this.events.push(event);
 	    };
+
+        this.buildEventSet = function buildEventSet(events) {
+//            log.debug('Inside the build event set');
+////            this.events = [];
+            _.forEach(events,function(event) {
+                this.addEvent(event);
+            });
+        };
 	    
 	};
   
