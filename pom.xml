@@ -161,6 +161,7 @@
                         <source>src/main/resources/public/js/lib/string.min.js</source>
                         <source>src/main/resources/public/js/lib/moment.min.js</source>
                         <source>src/main/resources/public/js/lib/d3.js</source>
+                        <source>src/main/resources/public/js/lib/sankey.js</source>
                         <source>src/main/resources/public/js/lib/crossfilter.min.js</source>
                         <source>src/main/resources/public/js/lib/dc.min.js</source>
                         <source>src/main/resources/public/js/lib/angular-dc.min.js</source>
