@@ -103,14 +103,6 @@ var Constants = (function(window,undefined) {
 	    	this.events.push(event);
 	    };
 
-        this.buildEventSet = function buildEventSet(events) {
-//            log.debug('Inside the build event set');
-////            this.events = [];
-            _.forEach(events,function(event) {
-                this.addEvent(event);
-            });
-        };
-	    
 	};
   
 	OpenDashboardApi.Course = Course;
@@ -356,7 +348,7 @@ var Constants = (function(window,undefined) {
 				this.action = xapiAction.substr(lastSlash + 1);
 			}
 			
-			if (xapi.object) {
+			if (xapi.object && xapi.object.definition && xapi.object.definition.type) {
 				var xapiObject = xapi.object.definition.type;
 				var lastSlash = xapiObject.lastIndexOf('/');
 				this.object = xapiObject.substr(lastSlash + 1);
